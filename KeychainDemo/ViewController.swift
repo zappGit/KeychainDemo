@@ -1,19 +1,11 @@
-//
-//  ViewController.swift
-//  KeychainDemo
-//
-//  Created by Артем Хребтов on 30.05.2022.
-//
-
 import UIKit
+import KeychainSwift
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .blue
     }
-
-
 }
 

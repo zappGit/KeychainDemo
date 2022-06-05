@@ -7,5 +7,6 @@ target 'KeychainDemo' do
 
   pod 'KeychainSwift'
   pod 'SnapKit'
+  pod 'DeviceKit'
 
 end

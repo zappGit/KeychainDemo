@@ -3,11 +3,23 @@ import KeychainSwift
 import SnapKit
 import DeviceKit
 
+enum KeychainKeys: String {
+    case name = "name"
+}
+
 class ViewController: UIViewController {
+    var keychain = KeychainSwift()
     let setView = SetView()
+    let setButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .green
+        button.setTitle("Записать в keychain", for: .normal)
+        button.layer.cornerRadius = 8
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(setIntoKeychainButtonTapped), for: .touchUpInside)
+        return button
+    }()
     
-    let top    = UIApplication.shared.windows[0].safeAreaInsets.top
-    let bottom = UIApplication.shared.windows[0].safeAreaInsets.bottom
     let screen = UIApplication.shared.windows[0].safeAreaLayoutGuide.layoutFrame.height
     
     override func viewDidLoad() {
@@ -16,15 +28,42 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         navigationItem.title = "Keychain demo"
         setupConstraints()
+        hideKeyWhenTap()
     }
     
     func setupConstraints() {
         view.addSubview(setView)
+        view.addSubview(setButton)
         
         setView.snp.makeConstraints { make in
             make.top.left.right.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(screen / 2)
         }
+        
+        setButton.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(16)
+            make.centerX.equalToSuperview()
+            make.bottom.lessThanOrEqualTo(view.keyboardLayoutGuide.snp.top).inset(-16)
+        }
+    }
+    
+    @objc func setIntoKeychainButtonTapped() {
+        if let name = setView.text.text {
+            keychain.set(name, forKey: KeychainKeys.name.rawValue, withAccess: .none)
+            print(name)
+        }
+    }
+    
+    func hideKeyWhenTap() {
+        let tap = UITapGestureRecognizer(target: self,
+                                         action: #selector(dissmisKeyboard))
+        tap.cancelsTouchesInView = true
+        tap.buttonMaskRequired = .primary
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dissmisKeyboard(){
+        view.endEditing(true)
     }
     
 }

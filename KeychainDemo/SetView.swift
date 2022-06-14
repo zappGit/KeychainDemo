@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import SnapKit
+import KeychainSwift
 
 protocol SetViewDelegate {
     func setupPicherView()
@@ -17,13 +18,13 @@ class SetView: UIView {
         button.addTarget(self, action: #selector(profileImageButtonTapped), for: .touchUpInside)
         return button
     }()
-    private let text: UITextField = {
+    let text: UITextField = {
         var textField = UITextField()
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         textField.backgroundColor = #colorLiteral(red: 0.6980392157, green: 0.7450980392, blue: 0.7647058824, alpha: 1)
         return textField
     }()
-    private let switchControl: UISwitch = {
+    let switchControl: UISwitch = {
         let isPrivateSwitch = UISwitch()
         isPrivateSwitch.onTintColor = #colorLiteral(red: 0.9921568627, green: 0.7960784314, blue: 0.431372549, alpha: 1)
         isPrivateSwitch.isOn = false
